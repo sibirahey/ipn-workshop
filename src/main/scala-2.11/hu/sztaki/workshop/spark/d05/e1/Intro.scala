@@ -10,8 +10,6 @@ object Intro {
 
     val sparkConfiguration =
       new SparkConf()
-        .setMaster("local[2]")
-        .setAppName("Not just a test.")
     val sparkContext = new SparkContext(sparkConfiguration)
 
     val data = 1 to 1000
@@ -22,5 +20,7 @@ object Intro {
     val output = filteredRDD.collect()
 
     output foreach println
+
+    Thread.sleep(1000 * 60 * 60)
   }
 }
