@@ -35,13 +35,20 @@ class Transactions(sc: SparkContext) {
 object Transactions {
   /**
     * In this main method do the following.
-    * @todo[1] Read the input and output arguments from command line.
-    * @todo[2] Create and configure SparkContext.
-    * @todo[3] Run the configured job: it should be a `new Transactions`
+    * @todo[1][OK] Read the input and output arguments from command line.
+    * @todo[2][OK] Create and configure SparkContext.
+    * @todo[3][OK] Run the configured job: it should be a `new Transactions`
     * @todo[8] Save the results as a text file.
     * @todo[9] Stop the SparkContext.
     */
   def main(args: Array[String]): Unit = {
+    val transactionsInput = args(1)
+    val usersInput = args(0)
+    val outputPath = args(2)
 
+    val sc = new SparkContext(new SparkConf())
+
+    val job = new Transactions(sc)
+    val result = job.run(transactionsInput, usersInput)
   }
 }
