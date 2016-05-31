@@ -6,12 +6,20 @@ import org.apache.spark.{SparkConf, SparkContext}
 import scala.collection.Map
 
 class Transactions(sc: SparkContext) {
-  def run(t: String, u: String) : RDD[(String, String)] = {
+  def run(t: String, u: String): RDD[(String, String)] = {
     /**
       * @todo[4] Read and parse the transactions into an RDD of pairs.
       *          Transaction information
       *          (transaction-id, product-id, user-id, purchase-amount, item-description)
       */
+    val transactions = sc.textFile(t)
+    val transactionsPair = transactions.map {
+      t =>
+        val tComponents = t.split("\t")
+        (tComponents(2).toInt, tComponents(1).toInt)
+    }
+    // Only for testing.
+    transactionsPair.collect() foreach println
 
     /**
       * @todo[5] Read and parse the users into an RDD of pairs.
@@ -28,6 +36,7 @@ class Transactions(sc: SparkContext) {
   /**
     * @todo[6] Find out for each product, that how many distinct locations was it
     *          ordered from.
+    * @hint Use `join`.
     */
   def processData (t: RDD[(Int, Int)], u: RDD[(Int, String)]) : Map[Int,Long] = ???
 }
