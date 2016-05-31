@@ -8,7 +8,7 @@ object Wordcount {
     // Create a Scala Spark Context.
     val sc = new SparkContext(conf)
     // Load our input data.
-    val input =  sc.textFile(args(0))
+    val input =  sc.textFile(args(0), 30)
     /**
       * @todo [1] Complete the word count:
       *           count the frequencies of all words in the text file.
@@ -16,14 +16,18 @@ object Wordcount {
     val frequencies = input
       .flatMap(_.split(" "))
       .map(word => new Tuple2(word, 1))
-      .groupByKey()
-      /*
-      .map {
-        case (key : String, iter : Iterable[Int])
-          => (key, iter.size)
-      }
-      */
-      .map(tuple => (tuple._1, tuple._2.size))
+      .reduceByKey(_ + _)
+        .sortBy(_._2,false)
+          .take(2)
+    /*
+    .reduceByKey((x, y) => x + y)
+    .groupByKey()
+    .map {
+      case (key : String, iter : Iterable[Int])
+        => (key, iter.size)
+    }
+    .map(tuple => (tuple._1, tuple._2.size))
+    */
     /**
       * @todo [2] Save the counts back to a file.
       */
@@ -32,9 +36,9 @@ object Wordcount {
     /**
       * @todo [3] Print out the counts.
       */
-    val results = frequencies.collect()
+    //val results = frequencies.collect()
 
-    results foreach println
+    frequencies foreach println
 
     Thread.sleep(1000 * 60 * 60)
   }
