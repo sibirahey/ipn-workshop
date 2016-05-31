@@ -61,8 +61,8 @@ object Transactions {
     * @todo[1][OK] Read the input and output arguments from command line.
     * @todo[2][OK] Create and configure SparkContext.
     * @todo[3][OK] Run the configured job: it should be a `new Transactions`
-    * @todo[8] Save the results as a text file.
-    * @todo[9] Stop the SparkContext.
+    * @todo[8][OK] Save the results as a text file.
+    * @todo[9][OK] Stop the SparkContext.
     */
   def main(args: Array[String]): Unit = {
     val transactionsInput = args(1)
@@ -74,6 +74,10 @@ object Transactions {
     val job = new Transactions(sc)
     val result = job.run(transactionsInput, usersInput)
 
+    result.saveAsTextFile(outputPath)
 
+    Thread.sleep(60 * 60 * 1000)
+
+    sc.stop()
   }
 }
