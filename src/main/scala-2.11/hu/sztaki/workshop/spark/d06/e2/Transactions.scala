@@ -13,24 +13,34 @@ class Transactions(sc: SparkContext) {
       *          (transaction-id, product-id, user-id, purchase-amount, item-description)
       */
     val transactions = sc.textFile(t)
-    val transactionsPair = transactions.map {
+    val usersWithProducts = transactions.map {
       t =>
         val tComponents = t.split("\t")
+        // (user-id, product-id)
         (tComponents(2).toInt, tComponents(1).toInt)
     }
-    // Only for testing.
-    transactionsPair.collect() foreach println
-
     /**
       * @todo[5] Read and parse the users into an RDD of pairs.
       *          User information (id, email, language, location)
       * @hint Use `processData` method.
       */
+    val users = sc.textFile(u)
+    val usersWithLocations = users.map {
+      u =>
+        val uComponents = u.split("\t")
+        // (user-id, location)
+        (uComponents(0).toInt, uComponents(3))
+    }
+
+    val productFrequency = processData(usersWithProducts, usersWithLocations)
 
     /**
       * @todo[7] Load the result back to the cluster.
       */
-    ???
+    sc.parallelize(productFrequency.toSeq).map {
+      p =>
+        (p._1.toString, p._2.toString)
+    }
   }
 
   /**
@@ -38,7 +48,11 @@ class Transactions(sc: SparkContext) {
     *          ordered from.
     * @hint Use `join`.
     */
-  def processData (t: RDD[(Int, Int)], u: RDD[(Int, String)]) : Map[Int,Long] = ???
+  def processData (t: RDD[(Int, Int)], u: RDD[(Int, String)]) : Map[Int, Long] = {
+    val distinctProductsWithLocations =
+      t.leftOuterJoin(u).values.distinct
+    distinctProductsWithLocations.countByKey
+  }
 }
 
 object Transactions {
@@ -59,5 +73,7 @@ object Transactions {
 
     val job = new Transactions(sc)
     val result = job.run(transactionsInput, usersInput)
+
+
   }
 }
