@@ -8,23 +8,34 @@ object BigramAnalysis{
     /**
       * @todo[0] Setup Spark, read from text file. Any text file.
       */
+    val sc = new SparkContext(new SparkConf())
+    val lines = sc.textFile(args(0), 5)
 
     /**
       * @todo[1] Transform to `Bigram`s and filter invalid items.
       * @hint Use the companion object of `model.Bigram`.
       */
+    val bigrams = lines
+      .flatMap(Bigram(_))
+      .filter(_.isValidBigram)
 
     /**
-      * @todo[2] Total number of bigrams
+      * @todo[2] Total number of bigrams.
       */
+    val pleaseSparkDoThe = bigrams
+    val totalNumberOfBigrams = pleaseSparkDoThe.count()
+    println(s"Total number of bigrams: $totalNumberOfBigrams.")
 
     /**
       * @todo[3] Cache bigrams.
       */
+    val cachedBigrams = bigrams.cache()
 
     /**
       * @todo[4] How many unique bigrams do we have?
       */
+    val uniqueBigrams = cachedBigrams.distinct().count()
+    println(s"Unique bigrams: $uniqueBigrams.")
 
     /**
       * @todo[5] Count each element.
