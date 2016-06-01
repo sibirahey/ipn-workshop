@@ -4,7 +4,7 @@ import org.apache.spark.rdd.RDD
 
 class SalesRDDFunctions(rdd: RDD[SalesRecord]) {
   def totalSales = rdd.map(_.itemValue).sum
-  def discount(discountPercentage:Double) = new DiscountRDD(rdd,discountPercentage)
+  def discount(discountPercentage: Double) = new DiscountRDD(rdd, discountPercentage)
 }
 
 /**
