@@ -41,10 +41,16 @@ object BigramAnalysis{
       * @todo[5] Count each element.
       * @hint Use the AdvancedRDD (implicitly).
       */
+    val bgOccurCount = bigrams.countEachElement
+    println(s"Each element has the count $bgOccurCount.")
 
     /**
       * @todo[6] Number of bigrams that appear only once.
+      * @hint Use the AdvancedRDD (some method).
       */
+    println(
+      bgOccurCount.countWhere(_._2 == 1)
+    )
 
     /**
       * @todo[7] List the top ten most frequent bigrams and their counts.

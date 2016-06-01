@@ -9,12 +9,16 @@ object AdvancedRDD {
     /**
       * @todo Encapsulate the logic of wordcount.
       */
-    def countEachElement = ???
+    def countEachElement = {
+      rdd.map((_,1)).reduceByKey(_+_)
+    }
 
     /**
       * @todo Count elements where the boolean function is true.
       */
-    def countWhere(f: T => Boolean): Long = ???
+    def countWhere(f: T => Boolean): Long = {
+      rdd.filter(f).count()
+    }
 
     /**
       * @todo Sort by descending.
