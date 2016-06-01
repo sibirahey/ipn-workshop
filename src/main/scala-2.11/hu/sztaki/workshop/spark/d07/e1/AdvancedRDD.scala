@@ -10,7 +10,7 @@ object AdvancedRDD {
       * @todo Encapsulate the logic of wordcount.
       */
     def countEachElement = {
-      rdd.map((_,1)).reduceByKey(_+_)
+      rdd.map((_,1)).aggregateByKey(0)(_ + _, _ + _)
     }
 
     /**

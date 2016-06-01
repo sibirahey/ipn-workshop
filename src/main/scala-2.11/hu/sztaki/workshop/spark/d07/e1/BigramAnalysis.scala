@@ -74,6 +74,17 @@ object BigramAnalysis{
       * @todo[9*] Determine the frequency of bigrams with the same start.
       * @hint Use `BigramsWithSameStart` and aggregateByKey also.
       */
+    val startingWordBigrams =
+      bigrams.map(bigram => (bigram.firstWord, bigram))
+
+    startingWordBigrams.aggregateByKey(
+      BigramsWithSameStart("", List())
+    )(
+      (accumulator, bigram) => BigramsWithSameStart(bigram),
+      (accum1, accum2) => accum1.merge(accum2)
+    )
+
+
 
     //  [(String, ((String, Int)), Int)]
     //  startWord - BG           - BG count    - bgs starting with word
