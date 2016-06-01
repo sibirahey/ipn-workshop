@@ -27,5 +27,7 @@ object SalesRDDFunctions {
     * @todo[5] Create our own implicit function that takes an RDD of SalesRecord
     *          and creates our own SalesRDDFunctions type.
     */
-  implicit def chickenConversion(rdd: RDD[SalesRecord]): SalesRDDFunctions = ???
+  implicit def beefConversion(rdd: RDD[SalesRecord]): SalesRDDFunctions = {
+    new SalesRDDFunctions(rdd)
+  }
 }
