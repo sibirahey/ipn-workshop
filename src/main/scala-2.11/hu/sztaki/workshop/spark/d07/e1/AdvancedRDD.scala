@@ -23,7 +23,9 @@ object AdvancedRDD {
     /**
       * @todo Sort by descending.
       */
-    def sortByDesc[K : Ordering: ClassTag](f: T => K): RDD[T] = ???
+    def sortByDesc[K : Ordering: ClassTag](f: T => K): RDD[T] = {
+      rdd.sortBy(f, ascending = false)
+    }
 
     /**
       * @todo[HARD] Complete the function.

@@ -54,12 +54,21 @@ object BigramAnalysis{
 
     /**
       * @todo[7] List the top ten most frequent bigrams and their counts.
+      * @hint Use AdvancedRDD.
       */
+    val topTenBigrams = bgOccurCount sortByDesc(_._2) take 10
+    topTenBigrams foreach println
 
     /**
       * @todo[8] What fraction of all bigrams occurrences does the top ten bigrams account for?
       *          That is, what is the cumulative frequency of the top ten bigrams?
       */
+    val topTenBigramsFreqCount = topTenBigrams.map(_._2).sum
+    val totalBigramsCount = bgOccurCount.values.sum
+
+    val fraction = topTenBigramsFreqCount / totalBigramsCount
+
+    println(fraction)
 
     /**
       * @todo[9*] Determine the frequency of bigrams with the same start.
