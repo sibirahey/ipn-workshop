@@ -1,6 +1,6 @@
 package hu.sztaki.workshop.spark.d06.e2
 
-import org.apache.spark.rdd.RDD
+import org.apache.spark.rdd.{PairRDDFunctions, RDD}
 import org.apache.spark.{SparkConf, SparkContext}
 
 import scala.collection.Map
@@ -50,8 +50,8 @@ class Transactions(sc: SparkContext) {
     */
   def processData (t: RDD[(Int, Int)], u: RDD[(Int, String)]) : Map[Int, Long] = {
     val distinctProductsWithLocations =
-      t.leftOuterJoin(u).values.distinct
-    distinctProductsWithLocations.countByKey
+    t.leftOuterJoin(u).values.distinct
+      distinctProductsWithLocations.countByKey
   }
 }
 

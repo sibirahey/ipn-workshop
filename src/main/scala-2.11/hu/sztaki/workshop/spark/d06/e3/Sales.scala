@@ -19,7 +19,8 @@ object Sales {
 
     /**
       * @todo[4] Set up a discount of 0.1 and print out
-      *           the new records.
+      *          the new records.
       */
+    // myRDD.discount()
   }
 }
