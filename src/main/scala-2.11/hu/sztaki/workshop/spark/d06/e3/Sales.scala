@@ -1,6 +1,6 @@
 package hu.sztaki.workshop.spark.d06.e3
 
-import hu.sztaki.workshop.spark.d06.e3.SalesRDDFunctions.{addCustomFunctions, beefConversion}
+import hu.sztaki.workshop.spark.d06.e3.SalesRDDFunctions.{beefConversion}
 import org.apache.spark.{SparkConf, SparkContext}
 
 object Sales {

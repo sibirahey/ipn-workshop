@@ -1,6 +1,6 @@
 package hu.sztaki.workshop.spark.d07.e1
 
-import hu.sztaki.workshop.spark.d07.AdvancedRDD.RichRDD
+import hu.sztaki.workshop.spark.d07.e1.AdvancedRDD.RichRDD
 import org.apache.spark.{SparkConf, SparkContext}
 
 object BigramAnalysis{

@@ -20,6 +20,10 @@ class SalesRecord(val transactionId: String,
     * Compares two sales record.
     */
   override def compareTo(o: SalesRecord): Int = transactionId.compareTo(o.transactionId)
+
+  /**
+    * @todo[homework] Override toString method for a pretty print.
+    */
 }
 
 object SalesRDDFunctions {
