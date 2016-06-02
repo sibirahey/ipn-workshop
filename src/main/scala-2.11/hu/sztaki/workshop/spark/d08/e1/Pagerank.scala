@@ -12,20 +12,31 @@ import org.apache.spark.{SparkConf, SparkContext}
   * ...
   * where URL and their neighbors are separated by space(s).
   */
-object Pagerank{
+object Pagerank {
   def main(args: Array[String]) {
     /**
       * @todo[1] Setup Spark & read from text file.
       */
-    val iterations = ???
+    val sc = new SparkContext(new SparkConf())
+    val rawData = sc.textFile(args(0))
+
+    val iterations = args(1).toInt
 
     /**
       * @todo[2] Collect all the outlinks for each URL together.
+      * @hint One RDD for the graph.
       */
+    val graph = rawData.map {
+      line =>
+        val outlink = line.split("\t")
+        (outlink(0), outlink(1))
+    }.distinct().groupByKey().cache()
 
     /**
       * @todo[3] Setup initial ranks for each URL.
+      * @hint Another RDD for the ranks.
       */
+    val ranks = graph.map(x => (x._1, 1.0))
 
     /**
       * @todo[4] Do a few iterations.
