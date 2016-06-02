@@ -36,7 +36,7 @@ object Pagerank {
       * @todo[3] Setup initial ranks for each URL.
       * @hint Another RDD for the ranks.
       */
-    val ranks = graph.map(x => (x._1, 1.0))
+    var ranks = graph.map(x => (x._1, 1.0))
 
     /**
       * @todo[4] Do a few iterations.
@@ -46,15 +46,25 @@ object Pagerank {
         * @todo[5] Calculate the contributions from each URL to its outlinks (URLs).
         * @hint It should contribute its rank, divided by the number of outlinks it has.
         */
-
+      val votes = graph.join(ranks).values.flatMap {
+        case (neighbors, rank) =>
+          val numberOfNeighbors = neighbors.size
+          neighbors.map { neighbor =>
+            (neighbor, rank / numberOfNeighbors)
+          }
+      }
       /**
         * @todo[6] Reduce the contributions and cosmetic the new ranks with the
         *          following formula: (newRank * 0.85 + 0.15)
         */
+      ranks = votes
+        .reduceByKey(_ + _)
+        .mapValues(rank => rank * 0.85 + 0.15)
     }
 
     /**
       * @todo[7] Print out the top 10 URL based on their ranks.
       */
+    ranks sortBy(_._2, ascending = false) take 10 foreach println
   }
 }
