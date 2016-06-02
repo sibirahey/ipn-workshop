@@ -1,23 +1,25 @@
 package hu.sztaki.workshop.spark.d08.e4
 
+import hu.sztaki.workshop.spark.d08.e4.SafeRDD.chickenProofRDDWhatever
 import org.apache.spark.{SparkConf, SparkContext}
 
 object Safe {
   def main(args: Array[String]) {
-    val sc = new SparkContext(new SparkConf().setAppName(""))
+    val sc = new SparkContext(new SparkConf())
 
     /**
       * @todo[1] Explain this use-case for me. What happens here?
       * @todo[2] Fix it!
       * @hint Use safe.
       */
-    val cleanData = sc
+    val safeData = sc
       .parallelize((1 to 100000000).toSeq, 2)
-      .map(x => Math.random())
-      .map(dirtyBlackBox)
-      .repartition(5)
+      .safe()
+      .map((x : Int) => Math.random())
+      .map((d : Double) => dirtyBlackBox(d))
+      .cache()
 
-    println(cleanData.count())
+    println(safeData.dirty().count())
   }
 
   /**

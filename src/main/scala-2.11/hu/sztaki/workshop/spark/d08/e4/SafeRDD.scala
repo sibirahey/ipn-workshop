@@ -80,7 +80,7 @@ extends RDD[Either[T, DirtyValue]](rdd) {
 }
 
 object SafeRDD {
-  implicit def safeRDD[T: ClassTag](rdd: RDD[T]): SafeRDD[T] = {
+  implicit def chickenProofRDDWhatever[T: ClassTag](rdd: RDD[T]): SafeRDD[T] = {
     new SafeRDD[T](rdd.map(t => Left(t)))
   }
 }
