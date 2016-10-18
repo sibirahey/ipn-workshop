@@ -89,12 +89,17 @@ object KMeans {
       /**
         * @todo[11] Calculate the sum of the squared distance change.
         */
-          kPoints.zip(newPoints).map{
-        case
+      tempDist = 0.0
+      for (i <- 0 until K) {
+        tempDist += squaredDistance(kPoints(i), newPoints(i))
       }
+
       /**
         * @todo[12] Update kPoints.
         */
+      for (newP <- newPoints) {
+        kPoints(newP._1) = newP._2
+      }
       println("Finished iteration (delta = " + tempDist + ")")
     }
 
@@ -102,5 +107,7 @@ object KMeans {
       * @todo[13] Print results, stop Spark.
       */
     println("Final centers:")
+    kPoints foreach println
+    sc.stop()
   }
 }
